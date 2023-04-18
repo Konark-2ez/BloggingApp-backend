@@ -1,0 +1,1 @@
+ db.transactions.aggregate([{$lookup:{from:"users",localField:"user_id",foreignField:"_id",as:"bank"}},{$group:{_id:"$bank.name",totalBalance:{$sum:{$cond:{$if:{$eq:["$type","$deposit"]},$then:"$amount",$else:{$subtract:[0,"$amount"]}}}}}},{$sort:{"$totalBalance":-1}}])
